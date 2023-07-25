@@ -64,7 +64,7 @@ impl GitHelper {
     /// Returnes a sorted vector with the lowest version at index `0`.
     pub(crate) fn versions_from(&self, version: &VersionAndTag) -> Vec<&VersionAndTag> {
         let mut values: Vec<&VersionAndTag> = self.version_map.values().collect();
-        values.retain(|v| *v < version && !v.version.is_prerelease());
+        values.retain(|v| *v < version && v.version.pre.is_empty());
         values.sort();
         values
     }

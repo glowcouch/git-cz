@@ -1,6 +1,6 @@
 use std::fmt;
 
-use semver::Version;
+use semver::{BuildMetadata, Prerelease, Version};
 
 use crate::{
     cli::VersionCommand,
@@ -30,6 +30,29 @@ impl fmt::Display for Label {
             Self::Release => write!(f, "release"),
         }
     }
+}
+
+// helper functions for migrate from old semver crate
+// ref to https://github.com/dtolnay/semver/issues/243#issuecomment-854337640
+fn increment_patch(v: &mut Version) {
+    v.patch += 1;
+    v.pre = Prerelease::EMPTY;
+    v.build = BuildMetadata::EMPTY;
+}
+
+fn increment_minor(v: &mut Version) {
+    v.minor += 1;
+    v.patch = 0;
+    v.pre = Prerelease::EMPTY;
+    v.build = BuildMetadata::EMPTY;
+}
+
+fn increment_major(v: &mut Version) {
+    v.major += 1;
+    v.minor = 0;
+    v.patch = 0;
+    v.pre = Prerelease::EMPTY;
+    v.build = BuildMetadata::EMPTY;
 }
 
 impl VersionCommand {
@@ -89,15 +112,15 @@ impl VersionCommand {
         }
         let label = match (major, minor, patch) {
             (true, _, _) => {
-                last_version.increment_major();
+                increment_major(&mut last_version);
                 Label::Major
             }
             (false, true, _) => {
-                last_version.increment_minor();
+                increment_minor(&mut last_version);
                 Label::Minor
             }
             (false, false, true) => {
-                last_version.increment_patch();
+                increment_patch(&mut last_version);
                 Label::Patch
             }
             // TODO what should be the behaviour? always increment patch? or stay on same version?
@@ -111,18 +134,18 @@ impl Command for VersionCommand {
     fn exec(&self, config: Config) -> Result<(), Error> {
         if let Some(VersionAndTag { tag, mut version }) = self.find_last_version()? {
             let v = if self.major {
-                version.increment_major();
+                increment_major(&mut version);
                 (version, Label::Major)
             } else if self.minor {
-                version.increment_minor();
+                increment_minor(&mut version);
                 (version, Label::Minor)
             } else if self.patch {
-                version.increment_patch();
+                increment_patch(&mut version);
                 (version, Label::Patch)
             } else if self.bump {
-                if version.is_prerelease() {
-                    version.pre.clear();
-                    version.build.clear();
+                if !version.pre.is_empty() {
+                    version.pre = Prerelease::EMPTY;
+                    version.build = BuildMetadata::EMPTY;
                     (version, Label::Release)
                 } else {
                     let parser = CommitParser::builder()
