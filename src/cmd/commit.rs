@@ -110,8 +110,8 @@ fn read_description(
     let result: String = dialoguer::Input::<String>::with_theme(theme)
         .with_prompt("description")
         .validate_with(|input: &String| {
-            if input.len() < 10 {
-                Err("Description needs a length of at least 10 characters")
+            if input.len() < 5 {
+                Err("Description needs a length of at least 5 characters")
             } else {
                 Ok(())
             }
