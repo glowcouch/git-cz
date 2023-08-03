@@ -24,14 +24,13 @@ git2 = { version = "0.17.2", default-features = false, features = [] }
 handlebars = { version = "4.3.7", features = [ "dir_source" ] }
 regex = "1.9.1"
 semver = "1.0.18"
-serde = { version = "1.0.175", features = ["derive"] }
+serde = { version = "1.0.180", features = ["derive"] }
 serde_yaml = "0.9.25"
 structopt = "0.3.26"
 url = "2.4.0"
 thiserror = "1.0.44"
 console = "0.15.7"
-#dialoguer = { version = "0.8.0", features = [ "fuzzy-select" ] }
-dialoguer = { version = "0.10.4", features = [] }
+dialoguer = { version = "0.10.4", features = ["fuzzy-select"] }
 
 [target.'cfg(unix)'.dependencies]
 skim = { version = "0.10.4" }
@@ -58,7 +57,7 @@ assets = [
 [patch.crates-io]
 # console = { git = "https://github.com/ttys3/console.git", version = "0.15.0" }
 # dialoguer = { git = "https://github.com/ttys3/dialoguer.git", version = "0.8.0" }
-dialoguer = { git = "https://github.com/ttys3/dialoguer.git", branch = "fuzzy" }
+#dialoguer = { git = "https://github.com/ttys3/dialoguer.git", branch = "fuzzy" }
 
 # local path for dev
 # dialoguer = { path = "../lib/dialoguer" }
