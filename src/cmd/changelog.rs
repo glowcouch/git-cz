@@ -40,7 +40,10 @@ struct ChangeLogTransformer<'a> {
 }
 
 fn date_from_time(time: &Time) -> NaiveDate {
-    chrono::NaiveDateTime::from_timestamp_opt(time.seconds(), 0).expect("invalid time").date()
+    chrono::DateTime::from_timestamp(time.seconds(), 0)
+        .unwrap()
+        .naive_utc()
+        .date()
 }
 
 impl<'a> ChangeLogTransformer<'a> {
@@ -130,7 +133,10 @@ impl<'a> ChangeLogTransformer<'a> {
                     });
 
                 let hash = commit.id().to_string();
-                let date = chrono::NaiveDateTime::from_timestamp_opt(commit.time().seconds(), 0).expect("invalid commit time").date();
+                let date = chrono::DateTime::from_timestamp(commit.time().seconds(), 0)
+                    .expect("invalid commit time")
+                    .naive_utc()
+                    .date();
                 let scope = conv_commit.scope;
                 let subject = conv_commit.description;
                 let body = conv_commit.body;

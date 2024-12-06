@@ -23,4 +23,6 @@ pub(crate) enum Error {
     Check,
     #[error("canceled by user")]
     CancelledByUser,
+    #[error(transparent)]
+    Dialoguer(#[from] dialoguer::Error),
 }

@@ -1,7 +1,7 @@
 use std::{io, path::Path};
 
 use chrono::NaiveDate;
-use handlebars::{no_escape, Handlebars};
+use handlebars::{no_escape, Handlebars, DirectorySourceOptions};
 use serde::Serialize;
 
 use super::config::Config;
@@ -137,7 +137,7 @@ impl<W: io::Write> ChangelogWriter<W> {
         handlebars.register_escape_fn(no_escape);
 
         if let Some(path) = template {
-            handlebars.register_templates_directory(".hbs", path)?;
+            handlebars.register_templates_directory(path, DirectorySourceOptions::default())?;
         } else {
             handlebars.register_template_string("template", TEMPLATE)?;
             handlebars.register_partial("header", HEADER)?;

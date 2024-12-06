@@ -186,9 +186,9 @@ impl Dialog {
             // header.push_str(ColorfulTheme::default().active_item_prefix.to_string().as_str());
             // .header(Some(header.as_str()))
             let options = SkimOptionsBuilder::default()
-                .min_height(Some("10"))
-                .prompt(Some("? type () › "))
-                .height(Some("25%"))
+                .min_height("10".to_string())
+                .prompt("? type () › ".to_string())
+                .height("25%".to_string())
                 .multi(false)
                 .reverse(true)
                 .build()

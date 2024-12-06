@@ -18,22 +18,22 @@ include = [
 ]
 
 [dependencies]
-chrono = { version = "0.4.26", features = ["serde"] }
+chrono = { version = "0.4.38", features = ["serde"] }
 # if enable zlib-ng feature, openssl-sys is required and will result in failure for darwin
-git2 = { version = "0.17.2", default-features = false, features = [] }
-handlebars = { version = "4.3.7", features = [ "dir_source" ] }
-regex = "1.9.1"
-semver = "1.0.18"
-serde = { version = "1.0.180", features = ["derive"] }
-serde_yaml = "0.9.25"
+git2 = { version = "0.19.0", default-features = false, features = [] }
+handlebars = { version = "6.2.0", features = [ "dir_source" ] }
+regex = "1.11.1"
+semver = "1.0.23"
+serde = { version = "1.0.215", features = ["derive"] }
+serde_yaml = "0.9.34"
 structopt = "0.3.26"
-url = "2.4.0"
-thiserror = "1.0.44"
-console = "0.15.7"
-dialoguer = { version = "0.10.4", features = ["fuzzy-select"] }
+url = "2.5.4"
+thiserror = "2.0.4"
+console = "0.15.8"
+dialoguer = { version = "0.11.0", features = ["fuzzy-select"] }
 
 [target.'cfg(unix)'.dependencies]
-skim = { version = "0.10.4" }
+skim = { version = "0.15.5" }
 
 [build-dependencies]
 structopt = "0.3.26"
